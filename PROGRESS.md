@@ -1053,3 +1053,11 @@ P5 第 10–14 次（2026-09-29 21:23 至 2026-09-30 01:58，候选 `87044f0b…
 | D84 | 小批试玩 14 第 5 轮：自定义世界的 `new-game` 用 here-document，JSON 字符串里有原始换行（`Invalid control character`）；模型照 `SKILL.md`“这种写法报错……本对话改用文件”，之后整局都写文件 | `SKILL.md` 的退回条件把 JSON 本身写错也算进“这种写法报错” | `82927fe`：`SKILL.md` 退回条件改为 shell 报错、宿主拒绝这种写法或 `encoding_check` 被拒；JSON 写错（如字符串里有换行）只改 JSON 重交 |
 | D85 | 小批试玩 01 第 6 轮“状态”：关系一行列出世界包的阶段名（“共顶钨钢”“摸索泄孔”），可去的地点列出“装甲车门机械应急开启把手内凹槽”，评审判表达 2（严重） | `status.lines` 原样用 `stage_labels` 与地点名；211 个世界里 189 个自定义了阶段名，很多是动作短语；412 个地点名不少于 12 字 | `82927fe`（阶段名）：`status` 的六行与“关系变化的原因”改用通用阶段词（陌生、认识、熟络……），世界包自己的阶段名只留在给模型的上下文里；测试用自定义阶段名断言状态里不出现。地点名（用户 2026-10-13：“过长的地点名全改”）：`c0d68f9` 把 146 个世界里 412 个不少于 12 字的地点名改成 2–7 字的短名（如“装甲车门机械应急开启把手内凹槽”→“车门应急把手”），只改 `content-src/worlds/` 里地点的 `name`，`id`、`detail` 与世界的 `region`、`notes` 不动；同一世界内不重名；改后 973 个地点名最长 11 字、中位数 5 字 |
 | D86 | 小批试玩 07 第 8 轮（快进，预算 4）用了 5 次调用：`preview_time` 同时给了 `days` 和 `until`；离屏片段缺 `summary`；跨日的那次提交里写了 `chapter_summary`，继续回合带了 `player_authorized`。02 第 4 轮同样在跨日的提交里写了 `chapter_summary` | 快进不在 `commit_template` 里，模型凭印象写；预览返回的 `requests`（`chapter_summary: true`）说的是推进之后下一次提交的要求，模型当成了这一次的 | `82927fe`：带 `preview_time` 的 `get-context` 另外返回 `skip_template`（`continue`、不带 `player_authorized`，`advance_time` 照预览，其后每个必需 NPC 一条带 `summary` 的 `offscreen_beat`；本次提交要章节摘要或前情时才带对应占位）；预览不再给 `requests`（管的是跨日之后那一次提交，放在预览里会被当成这一次的）；`SKILL.md` 快进一条写明三选一、照 `skip_template` 提交。用单独的键是因为下一个普通回合仍照 `commit_template` 填。集成测试机械填写快进模板后提交通过 |
+
+## 2026-10-16 SillyTavern 宿主适配归档
+
+按当前用户明确要求，将已部署的 ST 桥接及前端适配保存到其 GitHub fork。新增 integrations/sillytavern，不改 Python 引擎、世界包或规范。适配支持固定玩家要求、按节读取原始资料、增量自定义世界草稿、旧局写入保护及显式取消。归档恢复说明、文件 SHA-256 与独立测试入口一并提供。
+
+验收：node integrations/sillytavern/tests/run.mjs 在普通 Windows 系统临时目录通过 11 组测试，包含实际 Python 引擎建局、旧存档不变和失败路径。Windows 沙箱专用临时目录下 doctor 出现 INTERNAL_ERROR，普通临时目录运行通过；不把沙箱失败当产品通过。隔离 ST 浏览器完成自定义气象站流式开局（13 次请求、43 次工具调用）和同一 session 的第二回合（2 次请求、1 次工具调用）。私人聊天、提示词和存档未读入测试或提交。
+
+范围边界：此次验证为新增宿主适配，不重新声明上游整个产品的 ACCEPTANCE 全部通过。长线叙事和用户具体设定仍需实际游玩确认。

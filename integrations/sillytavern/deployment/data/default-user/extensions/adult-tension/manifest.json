@@ -1,0 +1,10 @@
+{
+    "display_name": "Adult Tension · 本地世界与存档",
+    "loading_order": 40,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "author": "Local integration / daha1216 upstream",
+    "version": "1.1.0",
+    "homePage": "https://github.com/daha1216/dsh-adult-tension"
+}

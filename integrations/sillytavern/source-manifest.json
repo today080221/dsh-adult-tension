@@ -1,0 +1,26 @@
+{
+  "version": "1.1.0",
+  "upstream": "e46412d8c4cc354c3e2ba71a600559231539552e",
+  "files": [
+    {
+      "file": "data/adult-tension/bridge.mjs",
+      "sha256": "b1b4bf6c4068a5988f9326119544303603b132280618fe7abb4dadccdb70581f"
+    },
+    {
+      "file": "data/default-user/extensions/adult-tension/index.js",
+      "sha256": "30446ffebbdb3cd9bad075ede8afb2c5a671531810eb3aef54f3e2e99c5259d1"
+    },
+    {
+      "file": "data/default-user/extensions/adult-tension/context-guard.js",
+      "sha256": "2e6d7adfb359cda142c175053561d562951fbc4a686747dc056f79ed4881ba8e"
+    },
+    {
+      "file": "data/default-user/extensions/adult-tension/manifest.json",
+      "sha256": "bfdce697bda835b317908b85494798cec445106c87619a40c921945a864c0637"
+    },
+    {
+      "file": "plugins/adult-tension/index.mjs",
+      "sha256": "b1054e7f91568d16069acb0474aa88db334cf73165eb1e15440701c82ea545d7"
+    }
+  ]
+}
